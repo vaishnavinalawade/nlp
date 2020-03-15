@@ -1,0 +1,32 @@
+try { 
+	webengage.util.withWeJquery(function() {
+if(document.location.href.indexOf("personal-loan.html") >= 0) {
+	webengage.track('Personal Loan Page Seen',{
+		'Bank Name' : $weJQuery("#bankName").val() ? $weJQuery("#bankName").val().toUpperCase() : null
+	});	
+}
+else if(document.location.href.indexOf("credit-card.html") >= 0) {
+	webengage.track('Credit Card Page Seen',{
+		'Bank Name' : $weJQuery("#bankName").val() ? $weJQuery("#bankName").val().toUpperCase() : null
+	});	
+}
+else if(document.location.href.indexOf("ifsc-code") >= 0) {
+	webengage.track('IFSC Page Seen',{
+		'IFSC Code' : $weJQuery(".ifsc").siblings().find("a.hrefCurrentPage").text() ? $weJQuery(".ifsc").siblings().find("a.hrefCurrentPage").text().toUpperCase() : null,
+		'Bank Name' : $weJQuery("#ifscBank").text() ? $weJQuery("#ifscBank").text().toUpperCase() : null
+	});	
+}
+else if(document.location.href.indexOf("gold-rate-india") >= 0) {
+	webengage.track('Gold Rate India Page Seen');	
+}
+else if(document.location.href.indexOf("credit-card/zero-offers.html") >= 0) {
+	webengage.track('Credit Card Zero Offers Page Seen');	
+}
+});
+ } catch(e) { 
+ 	if (e instanceof Error) { 
+		var data = e.stack || e.description;
+		data = (data.length > 900 ? data.substring(0, 900) : data);
+	 	webengage.eLog(null, 'error', data, 'cwc-error','cwc', '~hg3cjf');
+	 }
+ }

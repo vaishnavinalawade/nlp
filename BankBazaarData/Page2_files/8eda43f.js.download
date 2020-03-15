@@ -1,0 +1,15 @@
+try { 
+	webengage.onReady(function(){
+  webengage.screen({'visitorBucket':(function() {
+            var _hash = webengage.util.getHashCode(webengage.util.getWebengageCookie().luid);
+            return Math.abs(_hash % 100);
+                   })()});
+});
+
+ } catch(e) { 
+ 	if (e instanceof Error) { 
+		var data = e.stack || e.description;
+		data = (data.length > 900 ? data.substring(0, 900) : data);
+	 	webengage.eLog(null, 'error', data, 'cwc-error','cwc', '8eda43f');
+	 }
+ }

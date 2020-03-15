@@ -1,0 +1,70 @@
+try { 
+	/* Author - Raviraj, 27-08-2019, Ticket - 18829 */
+
+function detectPrivateMode(cb) {
+    var db,
+        on = cb.bind(null, true),
+        off = cb.bind(null, false);
+
+    function tryls() {
+        try {
+            localStorage.length ? off() : (localStorage.x = 1, localStorage.removeItem("x"), off());
+        } catch (e) {
+            // Safari only enables cookie in private mode
+            // if cookie is disabled then all client side storage is disabled
+            // if all client side storage is disabled, then there is no point
+            // in using private mode
+            navigator.cookieEnabled ? on() : off();
+        }
+    }
+
+    // Blink (chrome & opera)
+    window.webkitRequestFileSystem ? webkitRequestFileSystem(0, 0, off, on)
+        // FF
+        : "MozAppearance" in document.documentElement.style ? (db = indexedDB.open("test"), db.onerror = on, db.onsuccess = off)
+        // Safari
+        : /constructor/i.test(window.HTMLElement) || window.safari ? tryls()
+            // IE10+ & edge
+            : !window.indexedDB && (window.PointerEvent || window.MSPointerEvent) ? on()
+                // Rest
+                : off()
+}
+
+webengage.onReady(function(){
+detectPrivateMode(function (isPrivateMode) {
+    if(isPrivateMode == true) {
+        webengage.screen({
+            'incognitoMode' : true
+        });
+    }
+    else{
+        webengage.screen({
+            'incognitoMode' : false
+        });
+    }
+});
+
+webengage.screen({
+    'WebPushPermission' : Notification.permission
+});
+
+webengage.notification.onOpen(function (data) {
+        if (data.notificationId === "31756949") {
+            webengage.util.withWeJquery(function () {
+                Notification.requestPermission().then(function (result) {
+                    if (result === 'denied' || result === 'default' || result === 'granted') {
+                        $weJQuery("#webklipper-publisher-widget-container-notification-frame").contents().find(".close")[0].click();
+                    }
+                });
+            });
+        }
+    });
+
+  });
+ } catch(e) { 
+ 	if (e instanceof Error) { 
+		var data = e.stack || e.description;
+		data = (data.length > 900 ? data.substring(0, 900) : data);
+	 	webengage.eLog(null, 'error', data, 'cwc-error','cwc', '~a61h7ab');
+	 }
+ }

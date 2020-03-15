@@ -1,0 +1,14 @@
+try { 
+	webengage.notification.onClose(function(data){
+        if(data.notificationId === '22a34516c' || data.notificationId === '~25143c928' || data.notificationId === '~10cb53a39' || data.notificationId === 'b8a59778' || data.notificationId === 'b8a59687' || data.notificationId === '~5585c8a0' || data.notificationId === '~10cb54223' || data.notificationId === '22a345180' || data.notificationId === '~25143c92a' || data.notificationId === '173051070' || data.notificationId === '22a345666' || data.notificationId === 'b8a59290' || data.notificationId === '22a345288' || data.notificationId === '~251446438' || data.notificationId === '~5585c92a' || data.notificationId === '31765180' || data.notificationId === 'b8a59776' || data.notificationId === '173051076' || data.notificationId === '~5585c8a4' || data.notificationId === '~5585c92b' || data.notificationId === 'b8a59280' || data.notificationId === '31764987' || data.notificationId === '~10cb54224' || data.notificationId === '~251440113' || data.notificationId === '~19714881a' || data.notificationId === '31764998' || data.notificationId === '31764999' || data.notificationId === '~10cb54234' || data.notificationId === '~19714a2b8' || data.notificationId === '~10cb54223' || data.notificationId === 'b8a576a5' || data.notificationId === '~10cb54224' || data.notificationId === '22a345288' || data.notificationId === '~197149c00' || data.notificationId === '~251440112' || data.notificationId === '~55860911' || data.notificationId === '~10cb55625' || data.notificationId === '317630ac' || data.notificationId === '~25143c988' || data.notificationId === '22a345180' || data.notificationId === 'b8a5768b' || data.notificationId === '317636c6' || data.notificationId === 'b8a57ba6' || data.notificationId === '~251446438' || data.notificationId === '31764987' || data.notificationId === '173050888' || data.notificationId === '~5585c92b' || data.notificationId === '~5585c92a' || data.notificationId === '~2514418b1' || data.notificationId === '~2514418b0' || data.notificationId === '~197148790' || data.notificationId === '~19714881a' || data.notificationId === '~197149c06' || data.notificationId === '31764998' || data.notificationId === '31764999' || data.notificationId === 'b8a59687' || data.notificationId === '22a343a98')
+        {
+               webengage.notification.render({'notificationId':'~25143c984','skipRules':true});
+        }
+});
+ } catch(e) { 
+ 	if (e instanceof Error) { 
+		var data = e.stack || e.description;
+		data = (data.length > 900 ? data.substring(0, 900) : data);
+	 	webengage.eLog(null, 'error', data, 'cwc-error','cwc', '8eda3lh');
+	 }
+ }

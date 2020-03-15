@@ -1,0 +1,79 @@
+try { 
+	/*
+webengage.onReady(function () {
+  if (location.href.indexOf('https://www.bankbazaar.com/gold-rate') === 0) {
+      webengage.require('webengage/events').publish('error', null, 'debug', webengage.util.getWebengageCookie().luid, 'BNK-BZR gold-rate load');
+  }
+});
+*/
+    
+var _weq = window._weq || {};
+webengage.util.onReady(function() {
+	var attr = (webengage.util.getWebengageCookie() && webengage.util.getWebengageCookie().uattr) || {};
+    //AB testing + seenNIds + landingURL
+    var seenNIds = webengage.util.getWebengageCookie().seenNIds;
+    _weq['webengage.ruleData'] = webengage.util.copy(_weq['webengage.ruleData'] || {}, {
+        "visitorBucket": (function() {
+            var _hash = webengage.util.getHashCode(webengage.util.getWebengageCookie().luid);
+            return Math.abs(_hash % 100);
+        })(),
+        "seenNIds": seenNIds,
+        "landingURL": webengage.util.getSessionCookie().landingPage || '',
+		"first_name" : attr.we_first_name
+    }, true);
+    _weq['webengage.customData'] = webengage.util.copy(_weq['webengage.customData'] || {}, {
+        "landingURL": webengage.util.getSessionCookie().landingPage || ''
+    });
+
+    //Capture first name
+    webengage.util.withWeJquery(function() {
+      $weJQuery("input.btn.apply").click(function() {
+          if ($weJQuery("input.btn.apply").val() === "View FREE Offers" && $weJQuery("input[name*=firstName]").val().length>0) {
+			var firstName = $weJQuery("input[name*=firstName]").val().toLowerCase().trim().replace(/\b\w/g, function(l){ return l.toUpperCase(); });
+              webengage.user.setAttribute({
+                  'we_first_name': firstName
+              });
+              webengage.track('View Free Offers Button Clicked', {
+                  'we_first_name': firstName
+              });
+          }
+      });
+    });
+});
+
+//header changes + modal center align
+webengage.notification.onOpen(function(data) {
+    webengage.util.withWeJquery(function() {
+        var weMobileStickyHeader = $weJQuery("#webklipper-publisher-widget-container-notification-frame").contents().find("#weMobileStickyHeader");
+        /*if (weMobileStickyHeader.length > 0) {
+            var outerHeight = $weJQuery("#webklipper-publisher-widget-container-notification-frame").contents().find(".wrapper").outerHeight();
+            $weJQuery("<style type='text/css'>  #webklipper-publisher-widget-container-notification-frame {height:" + outerHeight + "px !important;} .webengage-push-down {height:" + outerHeight + "px !important;} </style>").appendTo("head");
+            $weJQuery("header")[0].style.top = "auto";
+            $weJQuery("header")[0].style.marginTop = "-39px";
+        }*/
+        var layout = webengage.$layoutInitializer ? webengage.$layoutInitializer.getLayout() : $weJQuery("#webklipper-publisher-widget-container-notification-frame").attr('data-notification-layout-name');
+        if (/*layout == 'header-mobile' ||*/ layout == 'header-desktop') {
+            var notHeight = $weJQuery("#webklipper-publisher-widget-container-notification-frame").contents().find(".wrapper").outerHeight();
+            //setTimeout(function() {
+            $weJQuery("<style type='text/css'>  #webklipper-publisher-widget-container-notification-frame {height:" + notHeight + "px !important;} body .webengage-push-down {height:" + notHeight + "px !important;} </style>").appendTo("head");
+            //}, 500);
+            if (layout == 'modal') {
+                //var notHeight = $weJQuery("#webklipper-publisher-widget-container-notification-frame").contents().find(".wrapper").outerHeight();
+                //setTimeout(function() {
+                //}, 500);
+                var windowHeight = window.screen && window.screen.height || $weJQuery(window).height();
+                var windowWidth = window.screen && window.screen.width || $weJQuery(window).width();
+                var ifrm = $weJQuery("#webklipper-publisher-widget-container-notification-frame").height(windowHeight).width(windowWidth);
+                var notWrapper = ifrm.contents().find(".wrapper");
+                $weJQuery(notWrapper).css('margin-top', ($weJQuery(window).height() - $weJQuery(notWrapper).height()) / 2);
+            }
+        }
+    });
+});
+ } catch(e) { 
+ 	if (e instanceof Error) { 
+		var data = e.stack || e.description;
+		data = (data.length > 900 ? data.substring(0, 900) : data);
+	 	webengage.eLog(null, 'error', data, 'cwc-error','cwc', '3k9e6dl');
+	 }
+ }
